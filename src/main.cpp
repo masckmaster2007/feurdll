@@ -54,7 +54,7 @@ class $modify(MyMenuLayer, MenuLayer) {
 		 * https://docs.geode-sdk.org/tutorials/buttons
 		*/
 		auto myButton = CCMenuItemSpriteExtra::create(
-			CCSprite::createWithSpriteFrameName("GJ_likeBtn_001.png"),
+			CCSprite::createWithSpriteFrameName("GJ_gpgBtn_001.png"),
 			this,
 			/**
 			 * Here we use the name we set earlier for our modify class.
@@ -99,6 +99,6 @@ class $modify(MyMenuLayer, MenuLayer) {
 	}
 
 	void onMoreGames(CCObject*) {
-		ShellExecute(NULL, "open", "https://dl.dindegmdps.us.to", NULL, NULL, SW_SHOWDEFAULT);
+		ShellExecute(NULL, "open", "https://dl.dindegmdps.us.to/moregames.html", NULL, NULL, SW_SHOWDEFAULT);
 	} 
 };
