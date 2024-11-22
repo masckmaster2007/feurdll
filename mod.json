@@ -1,14 +1,14 @@
 {
-	"geode": "$GEODE_VERSION",
+	"geode": "4.0.1",
 	"gd": {
 		"win": "2.2074",
 		"android": "2.2074",
 		"mac": "2.2074",
 		"ios": "2.2074"
 	},
-	"id": "$MOD_ID",
-	"name": "$MOD_NAME",
-	"version": "$MOD_VERSION",
-	"developer": "$MOD_DEVELOPER",
-	"description": "$MOD_DESCRIPTION"
+	"id": "jeantasoeur.feurdll",
+	"name": "FeurDLL",
+	"version": "2.207",
+	"developer": "Jean",
+	"description": "you have been dinde"
 }
