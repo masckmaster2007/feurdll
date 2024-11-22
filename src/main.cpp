@@ -49,8 +49,6 @@ class $modify(MyMenuLayer, MenuLayer) {
 		*/
 		log::debug("Hello from my MenuLayer::init hook! This layer has {} children.", this->getChildrenCount());
 
-		gdrpc::GDRPC::updateDiscordRP("DindeGDPS", "dgdps.us.to", "logo", "Join DindeGDPS!", true, false, "logo");
-
 		/**
 		 * See this page for more info about buttons
 		 * https://docs.geode-sdk.org/tutorials/buttons
