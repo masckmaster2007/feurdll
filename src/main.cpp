@@ -49,6 +49,8 @@ class $modify(MyMenuLayer, MenuLayer) {
 		*/
 		log::debug("Hello from my MenuLayer::init hook! This layer has {} children.", this->getChildrenCount());
 
+		gdrpc::GDRPC::updateDiscordRP("DindeGDPS", "dgdps.us.to", "logo", "Join DindeGDPS!", true, false, "logo");
+
 		/**
 		 * See this page for more info about buttons
 		 * https://docs.geode-sdk.org/tutorials/buttons
@@ -95,6 +97,10 @@ class $modify(MyMenuLayer, MenuLayer) {
 	 * return type `void` and taking a `CCObject*`.
 	*/
 	void onMyButton(CCObject*) {
-		FLAlertLayer::create("Geode", "Hello from my custom mod!", "OK")->show();
+		ShellExecute(NULL, "open", "https://dindegmdps.us.to", NULL, NULL, SW_SHOWDEFAULT);
 	}
+
+	void onMoreGames(CCObject*) {
+		ShellExecute(NULL, "open", "https://dl.dindegmdps.us.to", NULL, NULL, SW_SHOWDEFAULT);
+	} 
 };
