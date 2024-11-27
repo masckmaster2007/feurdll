@@ -140,7 +140,8 @@ class $modify(MySecretLayer5, SecretLayer5) {
 
 	        auto req = web::WebRequest();
 	        // Let's fetch... uhh...
-	        m_fields->m_listener.setFilter(req.get("https://gdps.dimisaio.be/database/getTesla.php?key={}", text));
+		std::string url = std::format("https://gdps.dimisaio.be/database/getTesla.php?key={}", text);
+	        m_fields->m_listener.setFilter(req.get(url));
 		
 		if (text == "pigeon") {
 			web::openLinkInBrowser("https://tuco.cc"); // test i'm bad
