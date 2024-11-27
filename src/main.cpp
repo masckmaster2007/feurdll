@@ -2,6 +2,7 @@
  * Include the Geode headers.
  */
 #include <Geode/Geode.hpp>
+#include <Geode/utils/web.hpp>
 
 /**
  * Brings cocos2d and all Geode namespaces to the current scope.
@@ -95,11 +96,11 @@ class $modify(MyMenuLayer, MenuLayer) {
 	 * return type `void` and taking a `CCObject*`.
 	*/
 	void onMyButton(CCObject*) {
-		geode::utils::web::openLinkInBrowser("https://dindegmdps.us.to/");
+		web::openLinkInBrowser("https://dindegmdps.us.to/");
 	}
 
 	void onMoreGames(CCObject*) {
-		geode::utils::web::openLinkInBrowser("https://dl.dindegmdps.us.to/moregames.html");
+		web::openLinkInBrowser("https://dl.dindegmdps.us.to/moregames.html");
 	} 
 };
 
@@ -117,7 +118,7 @@ class $modify(MySecretLayer5, SecretLayer5) {
 			}
 		);
 		if (text == "pigeon" && !Mod::get()->getSavedValue<bool>("icon-unlocked", false)) {
-			geode::utils::web::openLinkInBrowser("https://tuco.cc"); // test i'm bad
+			web::openLinkInBrowser("https://tuco.cc"); // test i'm bad
 			return;
 		}
 		SecretLayer5::onSubmit(sender);
