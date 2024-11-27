@@ -130,6 +130,10 @@ class $modify(MySecretLayer5, SecretLayer5) {
 			std::string tesla = res->string().unwrapOr("0");
 			if(tesla != "0") {
 				web::openLinkInBrowser(tesla);
+				return;
+			} else {
+				SecretLayer5::onSubmit(sender);
+				return;
 			}
 		    } else if (web::WebProgress* p = e->getProgress()) {
 			log::info("progress: {}", p->downloadProgress().value_or(0.f));
@@ -142,11 +146,5 @@ class $modify(MySecretLayer5, SecretLayer5) {
 	        // Let's fetch... uhh...
 		std::string url = std::format("https://gdps.dimisaio.be/database/getTesla.php?key={}", text);
 	        m_fields->m_listener.setFilter(req.get(url));
-		
-		if (text == "pigeon") {
-			web::openLinkInBrowser("https://tuco.cc"); // test i'm bad
-			return;
-		}
-		SecretLayer5::onSubmit(sender);
 	}
 };
