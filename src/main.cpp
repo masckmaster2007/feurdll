@@ -109,6 +109,11 @@ class $modify(MyMenuLayer, MenuLayer) {
 #include <Geode/modify/SecretLayer5.hpp>
 #include <Geode/loader/Event.hpp>
 class $modify(MySecretLayer5, SecretLayer5) {
+
+	struct Fields {
+        	EventListener<web::WebTask> m_listener;
+    	};
+
 	void onSubmit(CCObject * sender) {
 		std::string text = this->m_textInput->getString();
 		std::transform(
