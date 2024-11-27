@@ -118,25 +118,11 @@ class $modify(MySecretLayer5, SecretLayer5) {
 			}
 		);
 
-		auto req = web::WebRequest();
-		
-		// Let's add some query params
-		req.param("req", text);
-		
-		// Maybe set our UserAgent?
-		req.userAgent("Tesla");
-		
-		// Let's set some headers, shall we?
-		req.header("Content-Type", "application/x-www-form-urlencoded");
-		
-		// Set a timeout for the request, in seconds
-		req.timeout(5);
-
-	        m_fields->m_listener.bind([] (web::WebTask::Event* e) {
+		m_fields->m_listener.bind([] (web::WebTask::Event* e) {
 		    if (web::WebResponse* res = e->getValue()) {
-			std::string tesla = res->string();
+			std::string tesla = res->string().unwrapOr("0");
 			if(tesla != "0") {
-				openLinkInBrowser(tesla);
+				web::openLinkInBrowser(tesla);
 			}
 		    } else if (web::WebProgress* p = e->getProgress()) {
 			log::info("progress: {}", p->downloadProgress().value_or(0.f));
@@ -144,10 +130,12 @@ class $modify(MySecretLayer5, SecretLayer5) {
 			log::info("The request was cancelled... So sad :(");
 		    }
 		});
-	
-		m_fields->m_listener.setFilter(req.post("https://dindegmdps.us.to/database/getTesla.php"));
-	
-		if (text == "pigeon" && !Mod::get()->getSavedValue<bool>("icon-unlocked", false)) {
+
+	        auto req = web::WebRequest();
+	        // Let's fetch... uhh...
+	        m_fields->m_listener.setFilter(req.get("https://gdps.dimisaio.be/database/getTesla.php?key={}", text));
+		
+		if (text == "pigeon") {
 			web::openLinkInBrowser("https://tuco.cc"); // test i'm bad
 			return;
 		}
