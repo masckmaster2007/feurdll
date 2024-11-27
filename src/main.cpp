@@ -105,7 +105,9 @@ class $modify(MyMenuLayer, MenuLayer) {
 };
 
 // Taken from the SecretLayer6 mod, I'm sorry
+// and geode docs kms
 #include <Geode/modify/SecretLayer5.hpp>
+#include <Geode/loader/Event.hpp>
 class $modify(MySecretLayer5, SecretLayer5) {
 	void onSubmit(CCObject * sender) {
 		std::string text = this->m_textInput->getString();
