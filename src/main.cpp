@@ -95,11 +95,11 @@ class $modify(MyMenuLayer, MenuLayer) {
 	 * return type `void` and taking a `CCObject*`.
 	*/
 	void onMyButton(CCObject*) {
-		openLinkInBrowser("https://dindegmdps.us.to/");
+		geode::utils::web::openLinkInBrowser("https://dindegmdps.us.to/");
 	}
 
 	void onMoreGames(CCObject*) {
-		openLinkInBrowser("https://dl.dindegmdps.us.to/moregames.html");
+		geode::utils::web::openLinkInBrowser("https://dl.dindegmdps.us.to/moregames.html");
 	} 
 };
 
@@ -117,7 +117,7 @@ class $modify(MySecretLayer5, SecretLayer5) {
 			}
 		);
 		if (text == "pigeon" && !Mod::get()->getSavedValue<bool>("icon-unlocked", false)) {
-			openLinkInBrowser("https://tuco.cc"); // test i'm bad
+			geode::utils::web::openLinkInBrowser("https://tuco.cc"); // test i'm bad
 			return;
 		}
 		SecretLayer5::onSubmit(sender);
