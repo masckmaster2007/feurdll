@@ -95,10 +95,31 @@ class $modify(MyMenuLayer, MenuLayer) {
 	 * return type `void` and taking a `CCObject*`.
 	*/
 	void onMyButton(CCObject*) {
-		ShellExecute(NULL, "open", "https://dindegmdps.us.to", NULL, NULL, SW_SHOWDEFAULT);
+		openLinkInBrowser("https://dindegmdps.us.to/");
 	}
 
 	void onMoreGames(CCObject*) {
-		ShellExecute(NULL, "open", "https://dl.dindegmdps.us.to/moregames.html", NULL, NULL, SW_SHOWDEFAULT);
+		openLinkInBrowser("https://dl.dindegmdps.us.to/moregames.html");
 	} 
+};
+
+// Taken from the SecretLayer6 mod, I'm sorry
+#include <Geode/modify/SecretLayer5.hpp>
+class $modify(MySecretLayer5, SecretLayer5) {
+	void onSubmit(CCObject * sender) {
+		std::string text = this->m_textInput->getString();
+		std::transform(
+			text.begin(),
+			text.end(),
+			text.begin(),
+			[](unsigned char c) {
+				return std::tolower(c);
+			}
+		);
+		if (text == "pigeon" && !Mod::get()->getSavedValue<bool>("icon-unlocked", false)) {
+			openLinkInBrowser("https://tuco.cc"); // test i'm bad
+			return;
+		}
+		SecretLayer5::onSubmit(sender);
+	}
 };
