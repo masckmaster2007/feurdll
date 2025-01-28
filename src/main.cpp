@@ -3,6 +3,7 @@
  */
 #include <Geode/Geode.hpp>
 #include <Geode/utils/web.hpp>
+#include <Geode/utils/casts.hpp>
 
 /**
  * Brings cocos2d and all Geode namespaces to the current scope.
@@ -96,12 +97,24 @@ class $modify(MyMenuLayer, MenuLayer) {
 	 * return type `void` and taking a `CCObject*`.
 	*/
 	void onMyButton(CCObject*) {
-		web::openLinkInBrowser("https://dindegmdps.us.to/");
+		web::openLinkInBrowser("https://gdps.dimisaio.be/");
 	}
 
 	void onMoreGames(CCObject*) {
-		web::openLinkInBrowser("https://dindegmdps.us.to/moregames.html");
+		web::openLinkInBrowser("https://gdps.dimisaio.be/moregames.html");
 	} 
+
+	void triggerGlobedButton(CCObject*) {
+		if (auto menu = static_cast<CCMenu*>(getChildByID("bottom-menu"))) {
+		    if (auto btn = static_cast<CCMenuItemSpriteExtra*>(
+			menu->getChildByID("dankmeme.globed2/main-menu-button")
+		    )) {
+			if (btn->isVisible() && btn->isEnabled()) {
+			    btn->activate();
+			}
+		    }
+		}
+	}
 };
 
 // Taken from the SecretLayer6 mod, I'm sorry
@@ -147,4 +160,52 @@ class $modify(MySecretLayer5, SecretLayer5) {
 
 		SecretLayer5::onSubmit(sender);
 	}
+};
+
+#include <Geode/modify/CreatorLayer.hpp>
+class $modify(MyCreatorLayer, CreatorLayer) {
+    bool init() override {
+        if (!CreatorLayer::init()) return false;
+
+        auto menu = static_cast<CCMenu*>(this->getChildByID("creator-buttons-menu"));
+        if (!menu) return true;
+
+        auto mapBtn = static_cast<CCMenuItemSpriteExtra*>(menu->getChildByID("versus-button"));
+        if (mapBtn) {
+            mapBtn->setVisible(false);
+        }
+
+        auto versus = CCSprite::createWithSpriteFrameName("GJ_versusBtn_001.png");
+        versus->setScale(0.75f);
+
+        auto versusBtn = CCMenuItemSpriteExtra::create(
+            versus,
+            nullptr,
+            this,
+            menu_selector(MyCreatorLayer::onVersus)
+        );
+        versusBtn->setID("globedversus-button");
+
+        if (mapBtn) {
+            versusBtn->setPosition(mapBtn->getPositionX() + 2.f, mapBtn->getPositionY() - 2.f);
+        }
+
+        menu->addChild(versusBtn);
+        return true;
+    }
+
+    void onVersus(CCObject*) {
+        auto scene = CCDirector::sharedDirector()->getRunningScene();
+        if (!scene) return;
+
+        auto children = scene->getChildren();
+        CCObject* child = nullptr;
+	CCARRAY_FOREACH(children, child) {
+	    auto menuLayer = typeinfo_cast<MenuLayer*>(child);
+	    if (menuLayer) {
+	        static_cast<MyMenuLayer*>(menuLayer)->triggerGlobedButton(nullptr);
+	        break;
+	    }
+	}
+    }
 };
