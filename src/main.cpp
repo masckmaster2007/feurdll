@@ -149,7 +149,6 @@ class $modify(MySecretLayer5, SecretLayer5) {
 	}
 };
 
-#include <Geode/ui/MenuLayer.hpp>
 class $modify(OtherMenuLayer, MenuLayer) {
     void onEnter() override {
         MenuLayer::onEnter();
