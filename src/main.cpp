@@ -152,19 +152,20 @@ class $modify(MySecretLayer5, SecretLayer5) {
 class $modify(OtherMenuLayer, MenuLayer) {
     void onEnter() override {
         MenuLayer::onEnter();
-        this->scheduleOnce([this](float) {
-            triggerGlobedButton();
-        }, 0.1f, "simulate_globed");
+        // scheduleOnce only takes a selector and a delay
+        scheduleOnce(schedule_selector(OtherMenuLayer::triggerGlobedButtonSelector), 0.1f);
+    }
+    void triggerGlobedButtonSelector(float dt) {
+        triggerGlobedButton(nullptr);
     }
 
-    void triggerGlobedButton() {
-        if (auto menu = static_cast<CCMenu*>(this->getChildByID("bottom-menu"))) {
-            if (auto btn = static_cast<CCMenuItemSpriteExtra*>(
-                    menu->getChildByID("dankmeme.globed2/main-menu-button")
-                )) {
-                if (btn->isVisible() && btn->isEnabled()) {
-                    btn->activate();
-                }
+    void triggerGlobedButton(CCObject*) {
+        if (auto menu = static_cast<CCMenu*>(getChildByID("bottom-menu"))) {
+            auto btn = static_cast<CCMenuItemSpriteExtra*>(
+                menu->getChildByID("dankmeme.globed2/main-menu-button")
+            );
+            if (btn && btn->isVisible() && btn->isEnabled()) {
+                btn->activate();
             }
         }
     }
@@ -186,7 +187,7 @@ class $modify(MyCreatorLayer, CreatorLayer) {
 
             auto versus = CCSprite::createWithSpriteFrameName("GJ_versusBtn_001.png");
             versus->setScale(0.75f);
-            auto versusBtn = CCMenuItemSpriteExtra::create(versus, nullptr, this, menu_selector(OtherMenuLayer::triggerGlobedButton()));
+            auto versusBtn = CCMenuItemSpriteExtra::create(versus, nullptr, this, menu_selector(OtherMenuLayer::triggerGlobedButton));
             versusBtn->setID("globedversus-button");
             versusBtn->setPosition(mapBtn->getPositionX() + 2.f, mapBtn->getPositionY() - 2.f);
             menu->addChild(versusBtn);
