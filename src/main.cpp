@@ -199,12 +199,13 @@ class $modify(MyCreatorLayer, CreatorLayer) {
         if (!scene) return;
 
         auto children = scene->getChildren();
-        for (auto child : *children) {
-            auto menuLayer = typeinfo_cast<MenuLayer*>(child);
-            if (menuLayer) {
-                static_cast<MyMenuLayer*>(menuLayer)->triggerGlobedButton(nullptr);
-                break;
-            }
-        }
+        CCObject* child = nullptr;
+	CCARRAY_FOREACH(children, child) {
+	    auto menuLayer = typeinfo_cast<MenuLayer*>(child);
+	    if (menuLayer) {
+	        static_cast<MyMenuLayer*>(menuLayer)->triggerGlobedButton(nullptr);
+	        break;
+	    }
+	}
     }
 };
