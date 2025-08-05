@@ -148,3 +148,36 @@ class $modify(MySecretLayer5, SecretLayer5) {
 		SecretLayer5::onSubmit(sender);
 	}
 };
+
+#include <globed/hooks/menu_layer.cpp>
+class $modify(MyHookedMenuLayer, HookedMenuLayer) {
+    void onGlobedButton(CCObject* sender) {
+        onGlobedButton(sender);
+    }
+};
+
+
+// GlobedMenuLayer::create
+#include <Geode/modify/CreatorLayer.hpp>
+// sorry thejarvisdevlin
+class $modify(MyCreatorLayer, CreatorLayer) {
+    bool init() override {
+        if (!CreatorLayer::init()) return false;
+
+        if (auto menu = static_cast<CCMenu*>(this->getChildByID("creator-buttons-menu"))) {
+            auto mapBtn = static_cast<CCMenuItemSpriteExtra*>(menu->getChildByID("versus-button"));
+            if (mapBtn) {
+                mapBtn->setVisible(false);
+            }
+
+            auto versus = CCSprite::createWithSpriteFrameName("GJ_versusBtn_001.png");
+            versus->setScale(0.75f);
+            auto versusBtn = CCMenuItemSpriteExtra::create(versus, nullptr, this, menu_selector(HookedMenuLayer::onGlobedButton));
+            versusBtn->setID("globedversus-button");
+            versusBtn->setPosition(mapBtn->getPositionX() + 2.f, mapBtn->getPositionY() - 2.f);
+            menu->addChild(versusBtn);
+        }
+        return true;
+    }
+};
+
