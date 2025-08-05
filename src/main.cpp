@@ -149,7 +149,7 @@ class $modify(MySecretLayer5, SecretLayer5) {
 	}
 };
 
-#include <globed/hooks/menu_layer.cpp>
+#include <globed/hooks/menu_layer.hpp>
 class $modify(MyHookedMenuLayer, HookedMenuLayer) {
     void onGlobedButton(CCObject* sender) {
         onGlobedButton(sender);
