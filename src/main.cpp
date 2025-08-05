@@ -172,27 +172,37 @@ class $modify(OtherMenuLayer, MenuLayer) {
 };
 
 
-// GlobedMenuLayer::create
+// code by thejarvisdevlin
 #include <Geode/modify/CreatorLayer.hpp>
-// sorry thejarvisdevlin
 class $modify(MyCreatorLayer, CreatorLayer) {
     bool init() override {
         if (!CreatorLayer::init()) return false;
 
-        if (auto menu = static_cast<CCMenu*>(this->getChildByID("creator-buttons-menu"))) {
-            auto mapBtn = static_cast<CCMenuItemSpriteExtra*>(menu->getChildByID("versus-button"));
-            if (mapBtn) {
+        if (auto menu = static_cast<CCMenu*>(getChildByID("creator-buttons-menu"))) {
+            if (auto mapBtn = static_cast<CCMenuItemSpriteExtra*>(menu->getChildByID("versus-button"))) {
                 mapBtn->setVisible(false);
-            }
 
-            auto versus = CCSprite::createWithSpriteFrameName("GJ_versusBtn_001.png");
-            versus->setScale(0.75f);
-            auto versusBtn = CCMenuItemSpriteExtra::create(versus, nullptr, this, menu_selector(OtherMenuLayer::triggerGlobedButton));
-            versusBtn->setID("globedversus-button");
-            versusBtn->setPosition(mapBtn->getPositionX() + 2.f, mapBtn->getPositionY() - 2.f);
-            menu->addChild(versusBtn);
+                auto versus = CCSprite::createWithSpriteFrameName("GJ_versusBtn_001.png");
+                auto versusBtn = CCMenuItemSpriteExtra::create(
+                    versus, nullptr, this,
+                    menu_selector(MyCreatorLayer::onVersus)
+                );
+                versusBtn->setID("globed-versus-button"_spr);
+                versusBtn->setPosition(mapBtn->getPosition());
+                versusBtn->setScale(mapBtn->getScale());
+                versusBtn->setAnchorPoint(mapBtn->getAnchorPoint());
+                menu->addChild(versusBtn);
+                menu->updateLayout();
+            }
         }
         return true;
     }
+
+    void onVersus(CCObject* sender) {
+        if (auto ml = geode::getLayer<MenuLayer>()) {
+            static_cast<MyMenuLayer*>(ml)->triggerGlobedButton(nullptr);
+        }
+    }
 };
+
 
