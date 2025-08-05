@@ -96,11 +96,11 @@ class $modify(MyMenuLayer, MenuLayer) {
 	 * return type `void` and taking a `CCObject*`.
 	*/
 	void onMyButton(CCObject*) {
-		web::openLinkInBrowser("https://dindegmdps.us.to/");
+		web::openLinkInBrowser("https://gdps.dimisaio.be/");
 	}
 
 	void onMoreGames(CCObject*) {
-		web::openLinkInBrowser("https://dindegmdps.us.to/moregames.html");
+		web::openLinkInBrowser("https://gdps.dimisaio.be/moregames.html");
 	} 
 };
 
@@ -149,10 +149,25 @@ class $modify(MySecretLayer5, SecretLayer5) {
 	}
 };
 
-#include <globed/hooks/menu_layer.hpp>
-class $modify(MyHookedMenuLayer, HookedMenuLayer) {
-    void onGlobedButton(CCObject* sender) {
-        onGlobedButton(sender);
+#include <Geode/ui/MenuLayer.hpp>
+class $modify(OtherMenuLayer, MenuLayer) {
+    void onEnter() override {
+        MenuLayer::onEnter();
+        this->scheduleOnce([this](float) {
+            triggerGlobedButton();
+        }, 0.1f, "simulate_globed");
+    }
+
+    void triggerGlobedButton() {
+        if (auto menu = static_cast<CCMenu*>(this->getChildByID("bottom-menu"))) {
+            if (auto btn = static_cast<CCMenuItemSpriteExtra*>(
+                    menu->getChildByID("dankmeme.globed2/main-menu-button")
+                )) {
+                if (btn->isVisible() && btn->isEnabled()) {
+                    btn->activate();
+                }
+            }
+        }
     }
 };
 
@@ -172,7 +187,7 @@ class $modify(MyCreatorLayer, CreatorLayer) {
 
             auto versus = CCSprite::createWithSpriteFrameName("GJ_versusBtn_001.png");
             versus->setScale(0.75f);
-            auto versusBtn = CCMenuItemSpriteExtra::create(versus, nullptr, this, menu_selector(HookedMenuLayer::onGlobedButton));
+            auto versusBtn = CCMenuItemSpriteExtra::create(versus, nullptr, this, menu_selector(OtherMenuLayer::triggerGlobedButton()));
             versusBtn->setID("globedversus-button");
             versusBtn->setPosition(mapBtn->getPositionX() + 2.f, mapBtn->getPositionY() - 2.f);
             menu->addChild(versusBtn);
