@@ -152,6 +152,9 @@ class $modify(MySecretLayer5, SecretLayer5) {
 
 #include <Geode/modify/CreatorLayer.hpp>
 class $modify(MyCreatorLayer, CreatorLayer) {
+
+    bool m_demonlistButton = true; // replace getVar
+
     bool init() override {
         if (!CreatorLayer::init()) return false;
 
@@ -159,9 +162,7 @@ class $modify(MyCreatorLayer, CreatorLayer) {
         if (!menu) return true;
 
         auto mapBtn = static_cast<CCMenuItemSpriteExtra*>(menu->getChildByID("versus-button"));
-        if (mapBtn) {
-            mapBtn->setVisible(false);
-        }
+        if (mapBtn) mapBtn->setVisible(false);
 
         auto versus = CCSprite::createWithSpriteFrameName("GJ_versusBtn_001.png");
         versus->setScale(0.75f);
@@ -182,8 +183,18 @@ class $modify(MyCreatorLayer, CreatorLayer) {
         return true;
     }
 
-	void onVersus(CCObject*) {
+    void onVersus(CCObject*) {
+        if (!m_demonlistButton) return;
 
-	}
+        // Open custom search type
+        auto searchObj = GJSearchObject::create(static_cast<SearchType>(3142), "");
+        auto browser = LevelBrowserLayer::create(searchObj);
 
+        auto scene = CCScene::create();
+        scene->addChild(browser);
+
+        CCDirector::sharedDirector()->replaceScene(
+            CCTransitionFade::create(0.5f, scene)
+        );
+    }
 };
