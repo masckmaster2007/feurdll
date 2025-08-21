@@ -182,15 +182,23 @@ class $modify(MyCreatorLayer, CreatorLayer) {
         return true;
     }
 
-    void onVersus(CCObject*) {
+	void onVersus(CCObject*) {
 		if (getVar<bool>("demonlist-button")) {
-			// https://github.com/ninXout/Crystal-Client/blob/7df5a8336ccb852bc984e55dd29ca27bb1741443/src/Global/ListButtons.cpp#L86-L92
-			m_searchInput->onClickTrackNode(false);
-			auto p = LevelBrowserLayer::create(this->getSearchObject(static_cast<SearchType>(3142), ""));
+			// Create a search object with a *custom* SearchType
+			auto searchObj = GJSearchObject::create(static_cast<SearchType>(3142), "");
 
-			auto s = CCScene::create();
-			s->addChild(p);
-			CCDirector::sharedDirector()->replaceScene(CCTransitionFade::create(0.5, s));
+			// Create the browser layer directly
+			auto browser = LevelBrowserLayer::create(searchObj);
+
+			// Wrap it in a scene
+			auto scene = CCScene::create();
+			scene->addChild(browser);
+
+			// Transition to it
+			CCDirector::sharedDirector()->replaceScene(
+				CCTransitionFade::create(0.5f, scene)
+			);
 		}
-    }
+	}
+
 };
