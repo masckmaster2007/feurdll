@@ -103,18 +103,6 @@ class $modify(MyMenuLayer, MenuLayer) {
 	void onMoreGames(CCObject*) {
 		web::openLinkInBrowser("https://gdps.dimisaio.be/moregames.html");
 	} 
-
-	void triggerGlobedButton(CCObject*) {
-		if (auto menu = static_cast<CCMenu*>(getChildByID("bottom-menu"))) {
-		    if (auto btn = static_cast<CCMenuItemSpriteExtra*>(
-			menu->getChildByID("dankmeme.globed2/main-menu-button")
-		    )) {
-			if (btn->isVisible() && btn->isEnabled()) {
-			    btn->activate();
-			}
-		    }
-		}
-	}
 };
 
 // Taken from the SecretLayer6 mod, I'm sorry
@@ -184,7 +172,7 @@ class $modify(MyCreatorLayer, CreatorLayer) {
             this,
             menu_selector(MyCreatorLayer::onVersus)
         );
-        versusBtn->setID("globedversus-button");
+        versusBtn->setID("demonlist-button");
 
         if (mapBtn) {
             versusBtn->setPosition(mapBtn->getPositionX() + 2.f, mapBtn->getPositionY() - 2.f);
@@ -195,17 +183,14 @@ class $modify(MyCreatorLayer, CreatorLayer) {
     }
 
     void onVersus(CCObject*) {
-        auto scene = CCDirector::sharedDirector()->getRunningScene();
-        if (!scene) return;
+		if (getVar<bool>("demonlist-button")) {
+			// https://github.com/ninXout/Crystal-Client/blob/7df5a8336ccb852bc984e55dd29ca27bb1741443/src/Global/ListButtons.cpp#L86-L92
+			m_searchInput->onClickTrackNode(false);
+			auto p = LevelBrowserLayer::create(this->getSearchObject(static_cast<SearchType>(3142), ""));
 
-        auto children = scene->getChildren();
-        CCObject* child = nullptr;
-	CCARRAY_FOREACH(children, child) {
-	    auto menuLayer = typeinfo_cast<MenuLayer*>(child);
-	    if (menuLayer) {
-	        static_cast<MyMenuLayer*>(menuLayer)->triggerGlobedButton(nullptr);
-	        break;
-	    }
-	}
+			auto s = CCScene::create();
+			s->addChild(p);
+			CCDirector::sharedDirector()->replaceScene(CCTransitionFade::create(0.5, s));
+		}
     }
 };
