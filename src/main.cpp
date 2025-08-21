@@ -152,8 +152,9 @@ class $modify(MySecretLayer5, SecretLayer5) {
 
 #include <Geode/modify/CreatorLayer.hpp>
 class $modify(MyCreatorLayer, CreatorLayer) {
-
-    bool m_demonlistButton = true; // replace getVar
+    struct Fields {
+        bool m_demonlistButton = true;
+    };
 
     bool init() override {
         if (!CreatorLayer::init()) return false;
@@ -184,7 +185,7 @@ class $modify(MyCreatorLayer, CreatorLayer) {
     }
 
     void onVersus(CCObject*) {
-        if (!m_demonlistButton) return;
+        if (!m_fields->m_demonlistButton) return;
 
         // Open custom search type
         auto searchObj = GJSearchObject::create(static_cast<SearchType>(3142), "");
