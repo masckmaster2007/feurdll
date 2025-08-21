@@ -142,6 +142,7 @@ class $modify(MySecretLayer5, SecretLayer5) {
 		    if (web::WebResponse* res = e->getValue()) {
 			std::string tesla = res->string().unwrapOr("0");
 			if(tesla != "0") {
+				SecretLayer5::showSuccessAnimation();
 				web::openLinkInBrowser(tesla);
 				return;
 			}
@@ -154,8 +155,7 @@ class $modify(MySecretLayer5, SecretLayer5) {
 
 	        auto req = web::WebRequest();
 	        // Let's fetch... uhh...
-		std::string url = "https://gdps.dimisaio.be/database/getTesla.php?key=";
-		url += text;
+		std::string url = std::format("https://gdps.dimisaio.be/database/getTesla.php?key={}", text);
 	        m_fields->m_listener.setFilter(req.get(url));
 
 		SecretLayer5::onSubmit(sender);
