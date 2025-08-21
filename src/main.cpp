@@ -183,22 +183,7 @@ class $modify(MyCreatorLayer, CreatorLayer) {
     }
 
 	void onVersus(CCObject*) {
-		if (getVar<bool>("demonlist-button")) {
-			// Create a search object with a *custom* SearchType
-			auto searchObj = GJSearchObject::create(static_cast<SearchType>(3142), "");
 
-			// Create the browser layer directly
-			auto browser = LevelBrowserLayer::create(searchObj);
-
-			// Wrap it in a scene
-			auto scene = CCScene::create();
-			scene->addChild(browser);
-
-			// Transition to it
-			CCDirector::sharedDirector()->replaceScene(
-				CCTransitionFade::create(0.5f, scene)
-			);
-		}
 	}
 
 };
