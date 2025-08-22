@@ -166,7 +166,7 @@ class $modify(MyCreatorLayer, CreatorLayer) {
         if (mapBtn) mapBtn->setVisible(false);
 
         auto versus = CCSprite::create("dl.png"_spr);
-        versus->setScale(0.75f);
+        versus->setScale(1f);
 
         auto versusBtn = CCMenuItemSpriteExtra::create(
             versus,
