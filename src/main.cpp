@@ -176,9 +176,7 @@ class $modify(MyCreatorLayer, CreatorLayer) {
         );
         versusBtn->setID("demonlist-button");
 
-        if (mapBtn) {
-            versusBtn->setPosition(mapBtn->getPositionX(), mapBtn->getPositionY());
-        }
+		worldsBtn->setPosition(mapBtn->getPositionX() + 2.f, mapBtn->getPositionY() - 2.f);
 
         menu->addChild(versusBtn);
         return true;
