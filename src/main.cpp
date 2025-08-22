@@ -165,7 +165,7 @@ class $modify(MyCreatorLayer, CreatorLayer) {
         auto mapBtn = static_cast<CCMenuItemSpriteExtra*>(menu->getChildByID("versus-button"));
         if (mapBtn) mapBtn->setVisible(false);
 
-        auto versus = CCSprite::createWithSpriteFrameName("GJ_versusBtn_001.png");
+        auto versus = CCSprite::create("worlds.png"_spr);
         versus->setScale(0.75f);
 
         auto versusBtn = CCMenuItemSpriteExtra::create(
@@ -194,7 +194,7 @@ class $modify(MyCreatorLayer, CreatorLayer) {
         auto scene = CCScene::create();
         scene->addChild(browser);
 
-        CCDirector::sharedDirector()->replaceScene(
+        CCDirector::sharedDirector()->pushScene(
             CCTransitionFade::create(0.5f, scene)
         );
     }

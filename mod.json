@@ -6,12 +6,14 @@
 		"mac": "2.2074",
 		"ios": "2.2074"
 	},
-	"dependencies": {
-		"dankmeme.globed2": ">=v1.8.0"
-	},
 	"id": "jeantasoeur.feurdll",
 	"name": "FeurDLL",
 	"version": "v1.0.0",
 	"developer": "Jean",
-	"description": "you have been dinde"
+	"description": "you have been dinde",
+	"resources": {
+		"sprites": [
+			"resources/dl.png"
+		]
+	}
 }
