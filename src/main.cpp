@@ -207,9 +207,9 @@ std::string gLastRedirectedEffect;
 // warbled completions by ery
 #include <Geode/modify/EndLevelLayer.hpp>
 class $modify(CustomEndLevelLayer, EndLevelLayer) {
-    bool init(GJGameLevel* level, bool p1, bool p2) {
+    bool init(GJGameLevel* level) {
         // call the original init first
-        if (!EndLevelLayer::init(level, p1, p2))
+        if (!EndLevelLayer::init(level))
             return false;
 
         auto pl = m_playLayer;
