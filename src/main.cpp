@@ -207,7 +207,7 @@ std::string gLastRedirectedEffect;
 // warbled completions by ery
 #include <Geode/modify/EndLevelLayer.hpp>
 class $modify(CustomEndLevelLayer, EndLevelLayer) {
-    bool customSetup() {
+    void customSetup() {
         // call the original init first
         EndLevelLayer::customSetup();
 
@@ -218,8 +218,6 @@ class $modify(CustomEndLevelLayer, EndLevelLayer) {
         } else {
             beatLevel = false;
         }
-
-        return true;
     }
 };
 
