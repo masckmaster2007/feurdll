@@ -212,7 +212,7 @@ class $modify(CustomEndLevelLayer, EndLevelLayer) {
             beatLevel = false;
         }
 	}
-}
+};
 
 #include <Geode/modify/FMODAudioEngine.hpp>
 // sse2/gd-music-manager
