@@ -207,16 +207,21 @@ std::string gLastRedirectedEffect;
 // warbled completions by ery
 #include <Geode/modify/EndLevelLayer.hpp>
 class $modify(CustomEndLevelLayer, EndLevelLayer) {
-	void customSetup() {
-		EndLevelLayer::customSetup();
-        // Now check if the level was actually beaten
+    bool init(GJGameLevel* level, bool p1, bool p2) {
+        // call the original init first
+        if (!EndLevelLayer::init(level, p1, p2))
+            return false;
+
         auto pl = m_playLayer;
-        if (pl && pl->m_level && !pl->m_isPracticeMode && !pl->m_isTestMode && m_mainLayer) {
+        // check if this was a proper completion (not test or practice)
+        if (pl && !pl->m_isPracticeMode && !pl->m_isTestMode) {
             beatLevel = true;
         } else {
             beatLevel = false;
         }
-	}
+
+        return true;
+    }
 };
 
 #include <Geode/modify/FMODAudioEngine.hpp>
