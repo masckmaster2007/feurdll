@@ -198,7 +198,11 @@ class $modify(MyCreatorLayer, CreatorLayer) {
 };
 
 bool beatLevel = false;
+// sse2 did this so will i
 std::string gLastPlayedTrack;
+std::string gLastRedirectedTrack;
+std::string gLastPlayedEffect;
+std::string gLastRedirectedEffect;
 
 // warbled completions by ery
 #include <Geode/modify/EndLevelLayer.hpp>
