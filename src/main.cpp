@@ -213,7 +213,8 @@ class $modify(CustomEndLevelLayer, EndLevelLayer) {
 
         auto pl = m_playLayer;
         // check if this was a proper completion (not test or practice)
-        if (pl && pl->m_level && !pl->m_isPracticeMode && !pl->m_isTestMode) {
+		if (!pl || !pl->m_level || !m_mainLayer) return;
+        if (!pl->m_isPracticeMode && !pl->m_isTestMode) {
             beatLevel = true;
         } else {
             beatLevel = false;
