@@ -207,7 +207,7 @@ std::string gLastRedirectedEffect;
 // warbled completions by ery
 #include <Geode/modify/EndLevelLayer.hpp>
 class $modify(CustomEndLevelLayer, EndLevelLayer) {
-	void customSetup(auto& self) {
+	void customSetup() {
 		EndLevelLayer::customSetup();
         // Now check if the level was actually beaten
         auto pl = m_playLayer;
