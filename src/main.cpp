@@ -198,6 +198,7 @@ class $modify(MyCreatorLayer, CreatorLayer) {
 };
 
 bool beatLevel = false;
+std::string gLastPlayedTrack;
 
 // warbled completions by ery
 #include <Geode/modify/EndLevelLayer.hpp>
