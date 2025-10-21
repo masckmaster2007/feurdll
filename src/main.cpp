@@ -4,7 +4,6 @@
 #include <Geode/Geode.hpp>
 #include <Geode/utils/web.hpp>
 #include <Geode/utils/casts.hpp>
-
 /**
  * Brings cocos2d and all Geode namespaces to the current scope.
  */
@@ -196,4 +195,60 @@ class $modify(MyCreatorLayer, CreatorLayer) {
             CCTransitionFade::create(0.5f, scene)
         );
     }
+};
+
+bool beatLevel = false;
+
+// warbled completions by ery
+#include <Geode/modify/EndLevelLayer.hpp>
+class $modify(CustomEndLevelLayer, EndLevelLayer) {
+	void customSetup(auto& self) {
+		EndLevelLayer::customSetup();
+        // Now check if the level was actually beaten
+        auto pl = m_playLayer;
+        if (pl && pl->m_level && !pl->m_isPracticeMode && !pl->m_isTestMode && m_mainLayer) {
+            beatLevel = true;
+        } else {
+            beatLevel = false;
+        }
+	}
+}
+
+#include <Geode/modify/FMODAudioEngine.hpp>
+// sse2/gd-music-manager
+// clang-format off
+class $modify ( FMODAudioEngine ) {
+  // all music passes through here, some might pass more than once per play which leads to some songs fucking up the fade in (menuLoop)
+  void loadMusic ( gd::string p0, float p1, float p2, float p3, bool p4, int p5, int p6 ) {
+    // there isn't a last playing track or it isn't one we redirected
+    if ( gLastPlayedTrack.empty ( ) || ( gLastPlayedTrack != std::string { p0 } && std::string { p0 }.find ( "music-manager\\" ) == std::string::npos ) ) {
+      gLastPlayedTrack = p0;
+    }
+  
+    return this->FMODAudioEngine::loadMusic ( p0, p1, p2, p3, p4, p5, p6 );
+  }
+  
+  // todo; refactor and add support for sfx, should look into 3.0 bindings
+  void playMusic ( gd::string p0, bool p1, float p2, int p3 )
+  {
+   // there is a last playing track and it is the one we just redirected
+   if ( !gLastPlayedTrack.empty ( ) && gLastPlayedTrack == std::string { p0 } )
+    return; // not calling original here prevents fading in when going back to the title screen. maybe it causes other issues but didn't see anything
+  
+   gLastPlayedTrack = p0.data ( );
+  
+   // redirecting this track, if possible
+   if ( beatLevel )
+   {
+    // pick a random file in directory - to note; the path is relative to the Resources folder here, but our current, actual, path used by std::filesystem is the GD directory
+    // therefore some extra string processing is required here...
+    gd::string newString = "StereoMadness.mp3";
+    gLastRedirectedTrack = newString;
+	beatLevel = false;
+  
+    return this->FMODAudioEngine::playMusic ( newString, p1, p2, p3 );
+   }
+  
+   return this->FMODAudioEngine::playMusic ( p0, p1, p2, p3 );
+  }
 };
