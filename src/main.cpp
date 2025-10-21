@@ -220,13 +220,13 @@ class $modify(CustomEndLevelLayer, EndLevelLayer) {
 // clang-format off
 class $modify ( FMODAudioEngine ) {
   // all music passes through here, some might pass more than once per play which leads to some songs fucking up the fade in (menuLoop)
-  void loadMusic ( gd::string p0, float p1, float p2, float p3, bool p4, int p5, int p6 ) {
+  void loadMusic ( gd::string p0, float p1, float p2, float p3, bool p4, int p5, int p6, bool p7 ) {
     // there isn't a last playing track or it isn't one we redirected
     if ( gLastPlayedTrack.empty ( ) || ( gLastPlayedTrack != std::string { p0 } && std::string { p0 }.find ( "music-manager\\" ) == std::string::npos ) ) {
       gLastPlayedTrack = p0;
     }
   
-    return this->FMODAudioEngine::loadMusic ( p0, p1, p2, p3, p4, p5, p6 );
+    return this->FMODAudioEngine::loadMusic ( p0, p1, p2, p3, p4, p5, p6, p7 );
   }
   
   // todo; refactor and add support for sfx, should look into 3.0 bindings
