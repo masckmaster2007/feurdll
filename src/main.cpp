@@ -197,7 +197,7 @@ class $modify(MyCreatorLayer, CreatorLayer) {
     }
 };
 
-bool beatLevel = false;
+inline bool beatLevel = false;
 // sse2 did this so will i
 std::string gLastPlayedTrack;
 std::string gLastRedirectedTrack;
@@ -222,6 +222,7 @@ class $modify(CustomEndLevelLayer, EndLevelLayer) {
         } else {
             beatLevel = false;
         }
+		log::info("beatLevel state when on finish called: {}", beatLevel);
     }
 };
 
@@ -247,7 +248,8 @@ class $modify ( FMODAudioEngine ) {
     return; // not calling original here prevents fading in when going back to the title screen. maybe it causes other issues but didn't see anything
   
    gLastPlayedTrack = p0.data ( );
-  
+   log::info("beatLevel state when playMusic called: {}", beatLevel);
+
    // redirecting this track, if possible
    if ( beatLevel )
    {
