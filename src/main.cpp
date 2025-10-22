@@ -207,6 +207,9 @@ std::string gLastRedirectedEffect;
 // warbled completions by ery
 #include <Geode/modify/EndLevelLayer.hpp>
 class $modify(CustomEndLevelLayer, EndLevelLayer) {
+	static void onModify(auto& self) {
+		(void)self.setHookPriority("EndLevelLayer::customSetup", -3999);
+	}
     void customSetup() {
         // call the original init first
         EndLevelLayer::customSetup();
