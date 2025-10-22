@@ -197,7 +197,7 @@ class $modify(MyCreatorLayer, CreatorLayer) {
     }
 };
 
-inline bool beatLevel = false;
+inline int beatLevel = 0;
 // sse2 did this so will i
 std::string gLastPlayedTrack;
 std::string gLastRedirectedTrack;
@@ -218,9 +218,9 @@ class $modify(CustomEndLevelLayer, EndLevelLayer) {
         // check if this was a proper completion (not test or practice)
 		if (!pl || !pl->m_level || !m_mainLayer) return;
         if (!pl->m_isPracticeMode && !pl->m_isTestMode) {
-            beatLevel = true;
+            beatLevel = 2;
         } else {
-            beatLevel = false;
+            beatLevel = 0;
         }
 		log::info("beatLevel state when on finish called: {}", beatLevel);
     }
@@ -251,13 +251,13 @@ class $modify ( FMODAudioEngine ) {
    log::info("beatLevel state when playMusic called: {}", beatLevel);
 
    // redirecting this track, if possible
-   if ( beatLevel )
+   if ( beatLevel > 0 )
    {
     // pick a random file in directory - to note; the path is relative to the Resources folder here, but our current, actual, path used by std::filesystem is the GD directory
     // therefore some extra string processing is required here...
     gd::string newString = "StereoMadness.mp3";
     gLastRedirectedTrack = newString;
-	beatLevel = false;
+	beatLevel--;
   
     return this->FMODAudioEngine::playMusic ( newString, p1, p2, p3 );
    }
