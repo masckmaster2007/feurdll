@@ -255,7 +255,7 @@ class $modify ( FMODAudioEngine ) {
    {
     // pick a random file in directory - to note; the path is relative to the Resources folder here, but our current, actual, path used by std::filesystem is the GD directory
     // therefore some extra string processing is required here...
-    gd::string newString = "StereoMadness.mp3";
+    gd::string newString = "menuLoop1.mp3";
     gLastRedirectedTrack = newString;
 	beatLevel--;
   
