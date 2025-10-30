@@ -203,6 +203,7 @@ std::string gLastPlayedTrack;
 std::string gLastRedirectedTrack;
 std::string gLastPlayedEffect;
 std::string gLastRedirectedEffect;
+std::string player = "menuLoop1.mp3";
 
 // warbled completions by ery
 #include <Geode/modify/EndLevelLayer.hpp>
@@ -218,6 +219,8 @@ class $modify(CustomEndLevelLayer, EndLevelLayer) {
         // check if this was a proper completion (not test or practice)
 		if (!pl || !pl->m_level || !m_mainLayer) return;
         if (!pl->m_isPracticeMode && !pl->m_isTestMode) {
+			if(level->m_demon) player = level->m_demonDifficulty >= 5 ? "menuLoop3.mp3" : "menuLoop2.mp3";
+			else player = "menuLoop1.mp3";
             beatLevel = 2;
         } else {
             beatLevel = 0;
@@ -255,11 +258,10 @@ class $modify ( FMODAudioEngine ) {
    {
     // pick a random file in directory - to note; the path is relative to the Resources folder here, but our current, actual, path used by std::filesystem is the GD directory
     // therefore some extra string processing is required here...
-    gd::string newString = "menuLoop1.mp3";
-    gLastRedirectedTrack = newString;
+    gLastRedirectedTrack = player;
 	beatLevel--;
   
-    return this->FMODAudioEngine::playMusic ( newString, p1, p2, p3 );
+    return this->FMODAudioEngine::playMusic ( player, p1, p2, p3 );
    }
   
    return this->FMODAudioEngine::playMusic ( p0, p1, p2, p3 );
