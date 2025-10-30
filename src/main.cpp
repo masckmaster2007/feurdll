@@ -219,7 +219,7 @@ class $modify(CustomEndLevelLayer, EndLevelLayer) {
         // check if this was a proper completion (not test or practice)
 		if (!pl || !pl->m_level || !m_mainLayer) return;
         if (!pl->m_isPracticeMode && !pl->m_isTestMode) {
-			if(level->m_demon) player = level->m_demonDifficulty >= 5 ? "menuLoop3.mp3" : "menuLoop2.mp3";
+			if(pl->m_level->m_demon) player = pl->m_level->m_demonDifficulty >= 5 ? "menuLoop3.mp3" : "menuLoop2.mp3";
 			else player = "menuLoop1.mp3";
             beatLevel = 2;
         } else {
