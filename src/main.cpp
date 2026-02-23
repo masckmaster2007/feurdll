@@ -108,11 +108,12 @@ class $modify(MyMenuLayer, MenuLayer) {
 // and geode docs kms
 #include <Geode/modify/SecretLayer5.hpp>
 #include <Geode/loader/Event.hpp>
+#include <Geode/utils/async.hpp>
 class $modify(MySecretLayer5, SecretLayer5) {
 
 	struct Fields {
-        	EventListener<web::WebTask> m_listener;
-    	};
+        	async::TaskHolder<web::WebResponse> m_listener;
+    };
 
 	void onSubmit(CCObject * sender) {
 		std::string text = this->m_textInput->getString();
@@ -125,25 +126,20 @@ class $modify(MySecretLayer5, SecretLayer5) {
 			}
 		);
 
-		m_fields->m_listener.bind([] (web::WebTask::Event* e) {
-		    if (web::WebResponse* res = e->getValue()) {
-			std::string tesla = res->string().unwrapOr("0");
-			if(tesla != "0") {
-				web::openLinkInBrowser(tesla);
-				return;
-			}
-		    } else if (web::WebProgress* p = e->getProgress()) {
-			log::info("progress: {}", p->downloadProgress().value_or(0.f));
-		    } else if (e->isCancelled()) {
-			log::info("The request was cancelled... So sad :(");
-		    }
-		});
+		auto req = web::WebRequest();
+		std::string url = "https://gdps.dimisaio.be/database/getTesla.php?key=";
+		url += text;
 
-	        auto req = web::WebRequest();
-	        // Let's fetch... uhh...
-			std::string url = "https://gdps.dimisaio.be/database/getTesla.php?key=";
-			url += text;
-	        m_fields->m_listener.setFilter(req.get(url));
+		m_fields->m_listener.spawn(
+			req.get(url),
+			[](web::WebResponse value) {
+				std::string tesla = value.string().unwrapOr("0");
+				if(tesla != "0") {
+					web::openLinkInBrowser(tesla);
+					return;
+				}
+			}
+		);
 
 		SecretLayer5::onSubmit(sender);
 	}
@@ -228,6 +224,7 @@ class $modify(CustomEndLevelLayer, EndLevelLayer) {
 		log::info("beatLevel state when on finish called: {}", beatLevel);
     }
 };
+
 
 #include <Geode/modify/FMODAudioEngine.hpp>
 // sse2/gd-music-manager
