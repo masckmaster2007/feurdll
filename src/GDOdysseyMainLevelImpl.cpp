@@ -151,3 +151,12 @@ class $modify(OdysseyLevelTools, LevelTools)
         return tracks[tkey]["m_url"].asString().unwrap();
 	}
 };
+
+#include <Geode/modify/GameLevelManager.hpp>
+class $modify(MLE_GameLevelManager, GameLevelManager) {
+
+    $override GJGameLevel* getMainLevel(int levelID, bool dontGetLevelString) {
+        GJGameLevel::getLevel(levelID, dontGetLevelString);
+    };
+
+};
