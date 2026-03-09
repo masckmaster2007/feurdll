@@ -156,7 +156,7 @@ class $modify(OdysseyLevelTools, LevelTools)
 class $modify(MLE_GameLevelManager, GameLevelManager) {
 
     $override GJGameLevel* getMainLevel(int levelID, bool dontGetLevelString) {
-        GJGameLevel::getLevel(levelID, dontGetLevelString);
+        return OdysseyLevelTools::getLevel(levelID, dontGetLevelString);
     };
 
 };
