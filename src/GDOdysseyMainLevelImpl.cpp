@@ -158,7 +158,7 @@ class $modify(MLE_GameLevelManager, GameLevelManager) {
         GJGameLevel* level = GameLevelManager::getMainLevel(levelID, dontGetLevelString);
 
         std::string lkey = std::to_string(levelID);
-        if (levels.contains(lkey)) level = OdysseyLevelTools::coolUpdate(level, lkey, loaded);
+        if (levels.contains(lkey)) level = OdysseyLevelTools::coolUpdate(level, lkey, dontGetLevelString);
 
 		return level;
     };
