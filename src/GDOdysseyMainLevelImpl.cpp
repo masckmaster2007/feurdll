@@ -115,25 +115,27 @@ class $modify(OdysseyLevelTools, LevelTools)
 	// 	return level;
 	// };
 
+    static GJGameLevel coolUpdate(GJGameLevel level, gd::string lkey, bool loaded) {
+        level->m_levelName = levels[lkey]["m_levelName"].asString().unwrap();
+        level->m_audioTrack = levels[lkey]["m_audioTrack"].asInt().unwrap();
+        level->m_stars = levels[lkey]["m_stars"].asInt().unwrap();
+        level->m_difficulty = zmlDiff(levels[lkey]["m_difficulty"].asInt().unwrap());
+        // level->m_requiredCoins = 0;
+        // level->m_timestamp = 24273;
+
+        if (!loaded)
+			level->m_levelString = LocalLevelManager::sharedState()->getMainLevelString(levelID);
+            
+		level->m_levelType = GJLevelType::Main;
+		level->m_levelID = levelID;
+    }
+
     $override static GJGameLevel *getLevel(int levelID, bool loaded)
 	{
 		GJGameLevel *level = LevelTools::getLevel(levelID, loaded);
 
         std::string lkey = std::to_string(levelID);
-        if (!levels.contains(lkey)) return level;
-        
-        level->m_levelName = levels[lkey]["m_levelName"].asString().unwrap();
-        level->m_audioTrack = levels[lkey]["m_audioTrack"].asInt().unwrap();
-        level->m_stars = levels[lkey]["m_stars"].asInt().unwrap();
-        level->m_difficulty = zmlDiff(levels[lkey]["m_difficulty"].asInt().unwrap());
-        level->m_requiredCoins = 0;
-        level->m_timestamp = 24273;
-
-		if (!loaded)
-			level->m_levelString = LocalLevelManager::sharedState()->getMainLevelString(levelID);
-
-		level->m_levelType = GJLevelType::Main;
-		level->m_levelID = levelID;
+        if (levels.contains(lkey)) level = coolUpdate(level, lkey, loaded);
 
 		return level;
 	};
@@ -153,7 +155,12 @@ class $modify(OdysseyLevelTools, LevelTools)
 class $modify(MLE_GameLevelManager, GameLevelManager) {
 
     $override GJGameLevel* getMainLevel(int levelID, bool dontGetLevelString) {
-        return OdysseyLevelTools::getLevel(levelID, dontGetLevelString);
+        GJGameLevel* level = GameLevelManager::getMainLevel(levelID, dontGetLevelString);
+
+        std::string lkey = std::to_string(levelID);
+        if (levels.contains(lkey)) level = OdysseyLevelTools::coolUpdate(level, lkey, loaded);
+
+		return level;
     };
 
 };
