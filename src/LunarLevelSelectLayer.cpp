@@ -19,7 +19,7 @@ class $modify(HookedLevelSelectLayer, LevelSelectLayer) {
 
         m_scrollLayer->m_dots->removeAllObjects();
 
-        for(int i = 1; i < count; i++) {
+        for(int i = 1; i <= count; i++) {
             m_scrollLayer->m_dynamicObjects->addObject(GameLevelManager::get()->getMainLevel(i, true));
         }
         auto towerLevel = GJGameLevel::create();

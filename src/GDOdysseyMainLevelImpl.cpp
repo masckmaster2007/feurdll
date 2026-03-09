@@ -31,7 +31,7 @@ class $modify(OdysseyLevelTools, LevelTools)
 	{
         std::string tkey = std::to_string(trackID);
         if (!tracks.contains(tkey)) return LevelTools::getAudioTitle(trackID);
-        return tracks[tkey]["title"].asString().unwrap();
+        return tracks[tkey]["m_title"].asString().unwrap();
 	}
 
 	$override static gd::string getAudioFileName(int trackID)
@@ -78,47 +78,59 @@ class $modify(OdysseyLevelTools, LevelTools)
 
 
     static GJDifficulty zmlDiff(int diff) {
-        diff = std::clamp(diff, 1, 10);
+        diff = std::clamp(diff, 1, 6);
 
-        static const std::array<GJDifficulty, 10> diffs = {
+        static const std::array<GJDifficulty, 6> diffs = {
             GJDifficulty::Easy,
             GJDifficulty::Normal,
             GJDifficulty::Hard,
             GJDifficulty::Harder,
             GJDifficulty::Insane,
-            GJDifficulty::DemonEasy,
-            GJDifficulty::DemonMedium,
             GJDifficulty::Demon,
-            GJDifficulty::DemonInsane,
-            GJDifficulty::DemonExtreme
         };
 
         return diffs[diff - 1];
     }
 
-    // TODO FINISH THIS
-	$override static GJGameLevel *getLevel(int levelID, bool loaded)
-	{
-		GJGameLevel *level = GJGameLevel::create();
+	// $override static GJGameLevel *getLevel(int levelID, bool loaded)
+	// {
+	// 	GJGameLevel *level = GJGameLevel::create();
+
+    //     std::string lkey = std::to_string(levelID);
+    //     if (!levels.contains(lkey)) return LevelTools::getLevel(levelID, loaded);
+        
+    //     level->m_levelName = levels[lkey]["m_levelName"].asString().unwrap();
+    //     level->m_audioTrack = levels[lkey]["m_audioTrack"].asInt().unwrap();
+    //     level->m_stars = levels[lkey]["m_stars"].asInt().unwrap();
+    //     level->m_difficulty = zmlDiff(levels[lkey]["m_difficulty"].asInt().unwrap());
+    //     level->m_requiredCoins = 0;
+    //     level->m_timestamp = 24273;
+
+	// 	if (!loaded)
+	// 		level->m_levelString = LocalLevelManager::sharedState()->getMainLevelString(levelID);
+
+	// 	level->m_levelType = GJLevelType::Main;
+	// 	level->m_levelID = levelID;
+
+	// 	return level;
+	// };
+
+    $override static GJGameLevel* getLevel(int levelID, bool loaded)
+    {
+        GJGameLevel* level = LevelTools::getLevel(levelID, loaded);
 
         std::string lkey = std::to_string(levelID);
-        if (!levels.contains(lkey)) return LevelTools::getLevel(levelID, loaded);
-        
-        level->m_levelName = levels[lkey]["m_levelName"].asString().unwrap();
-        level->m_audioTrack = levels[lkey]["m_audioTrack"].asInt().unwrap();
-        level->m_stars = levels[lkey]["m_stars"].asInt().unwrap();
-        level->m_difficulty = zmlDiff(levels[lkey]["m_difficulty"].asInt().unwrap());
-        level->m_requiredCoins = 0;
-        level->m_timestamp = 24273;
+        if (!levels.contains(lkey)) {
+            level->m_levelName   = levels[lkey]["m_levelName"].asString().unwrap();
+            level->m_audioTrack  = levels[lkey]["m_audioTrack"].asInt().unwrap();
+            level->m_stars       = levels[lkey]["m_stars"].asInt().unwrap();
+            level->m_difficulty  = zmlDiff(levels[lkey]["m_difficulty"].asInt().unwrap());
+        }
 
-		if (!loaded)
-			level->m_levelString = LocalLevelManager::sharedState()->getMainLevelString(levelID);
+     	level->m_levelType = GJLevelType::Main;
 
-		level->m_levelType = GJLevelType::Main;
-		level->m_levelID = levelID;
-
-		return level;
-	};
+        return level;
+    }
 
 	// $override static gd::string getAudioString(int levelID)
 	// {
