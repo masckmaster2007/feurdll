@@ -11,9 +11,9 @@ static matjson::Value tracks;
 static matjson::Value artists;
 
 $on_mod(Loaded) {
-    auto levelsFile = Mod::get()->getResourcesDir() / "levels.json";
-    auto tracksFile = Mod::get()->getResourcesDir() / "tracks.json";
-    auto artistsFile= Mod::get()->getResourcesDir() / "artists.json";
+    auto levelsFile = Mod::get()->getConfigDir(false) / "levels.json";
+    auto tracksFile = Mod::get()->getConfigDir(false) / "tracks.json";
+    auto artistsFile= Mod::get()->getConfigDir(false) / "artists.json";
 
     auto lvls = geode::utils::file::readJson(levelsFile);
     auto trs = geode::utils::file::readJson(tracksFile);
@@ -115,30 +115,28 @@ class $modify(OdysseyLevelTools, LevelTools)
 	// 	return level;
 	// };
 
-    $override static GJGameLevel* getLevel(int levelID, bool loaded)
-    {
-        GJGameLevel* level = LevelTools::getLevel(levelID, loaded);
+    $override static GJGameLevel *getLevel(int levelID, bool loaded)
+	{
+		GJGameLevel *level = LevelTools::getLevel(levelID, loaded);
 
         std::string lkey = std::to_string(levelID);
-        if (levels.contains(lkey)) {
-            level->m_levelName   = levels[lkey]["m_levelName"].asString().unwrap();
-            level->m_audioTrack  = levels[lkey]["m_audioTrack"].asInt().unwrap();
-            level->m_stars       = levels[lkey]["m_stars"].asInt().unwrap();
-            level->m_difficulty  = zmlDiff(levels[lkey]["m_difficulty"].asInt().unwrap());
-        }
+        if (!levels.contains(lkey)) return level;
+        
+        level->m_levelName = levels[lkey]["m_levelName"].asString().unwrap();
+        level->m_audioTrack = levels[lkey]["m_audioTrack"].asInt().unwrap();
+        level->m_stars = levels[lkey]["m_stars"].asInt().unwrap();
+        level->m_difficulty = zmlDiff(levels[lkey]["m_difficulty"].asInt().unwrap());
+        level->m_requiredCoins = 0;
+        level->m_timestamp = 24273;
 
-     	level->m_levelType = GJLevelType::Main;
+		if (!loaded)
+			level->m_levelString = LocalLevelManager::sharedState()->getMainLevelString(levelID);
 
-        return level;
-    }
+		level->m_levelType = GJLevelType::Main;
+		level->m_levelID = levelID;
 
-	// $override static gd::string getAudioString(int levelID)
-	// {
-	// 	if (levelID > 7500)
-	// 		return LevelTools::getAudioString(levelID);
-
-	// 	return LevelTools::getAudioString(99 + levelID);
-	// }
+		return level;
+	};
 
 	$override static gd::string urlForAudio(int songID)
 	{
