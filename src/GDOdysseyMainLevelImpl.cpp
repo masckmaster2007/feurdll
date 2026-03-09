@@ -120,7 +120,7 @@ class $modify(OdysseyLevelTools, LevelTools)
         GJGameLevel* level = LevelTools::getLevel(levelID, loaded);
 
         std::string lkey = std::to_string(levelID);
-        if (!levels.contains(lkey)) {
+        if (levels.contains(lkey)) {
             level->m_levelName   = levels[lkey]["m_levelName"].asString().unwrap();
             level->m_audioTrack  = levels[lkey]["m_audioTrack"].asInt().unwrap();
             level->m_stars       = levels[lkey]["m_stars"].asInt().unwrap();
