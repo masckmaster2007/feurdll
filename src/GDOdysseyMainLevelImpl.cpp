@@ -30,14 +30,14 @@ class $modify(OdysseyLevelTools, LevelTools)
 	$override static gd::string getAudioTitle(int trackID)
 	{
         std::string tkey = std::to_string(trackID);
-        if (!tracks.contains(tkey)) return LevelTools::getAudioTitle(levelID);
+        if (!tracks.contains(tkey)) return LevelTools::getAudioTitle(trackID);
         return tracks[tkey]["title"].asString().unwrap();
 	}
 
 	$override static gd::string getAudioFileName(int trackID)
 	{
         std::string tkey = std::to_string(trackID);
-        if (!tracks.contains(tkey)) return LevelTools::getAudioFileName(levelID);
+        if (!tracks.contains(tkey)) return LevelTools::getAudioFileName(trackID);
         return tracks[tkey]["m_fileName"].asString().unwrap();
 	}
 
