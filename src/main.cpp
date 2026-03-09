@@ -133,6 +133,7 @@ class $modify(MySecretLayer5, SecretLayer5) {
 		m_fields->m_listener.spawn(
 			req.get(url),
 			[](web::WebResponse value) {
+				if (!value.ok()) return;
 				std::string tesla = value.string().unwrapOr("0");
 				if(tesla != "0") {
 					web::openLinkInBrowser(tesla);

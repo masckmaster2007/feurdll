@@ -1,0 +1,32 @@
+{
+    "23": {
+        "m_levelName": "xStep Brother",
+        "m_audioTrack": 9,
+        "m_difficulty": 5,
+        "m_stars": 10
+    },
+    "24": {
+        "m_levelName": "Nostalgic Travel",
+        "m_audioTrack": 40,
+        "m_difficulty": 6,
+        "m_stars": 12
+    },
+    "25": {
+        "m_levelName": "Nostalgic Travel II",
+        "m_audioTrack": 41,
+        "m_difficulty": 6,
+        "m_stars": 14
+    },
+    "26": {
+        "m_levelName": "Nostalgic Rebound",
+        "m_audioTrack": 42,
+        "m_difficulty": 6,
+        "m_stars": 18
+    },
+    "27": {
+        "m_levelName": "Calm",
+		"m_audioTrack": 43,
+		"m_difficulty": 5,
+		"m_stars": 10
+    }
+}
