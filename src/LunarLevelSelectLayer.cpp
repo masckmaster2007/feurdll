@@ -9,16 +9,6 @@ class $modify(HookedLevelSelectLayer, LevelSelectLayer) {
     $override bool init(int pageID) {
         if(!LevelSelectLayer::init(pageID))
             return false;
-        
-        auto GSM = GameStatsManager::sharedState();
-        auto GM = GameManager::sharedState();
-
-        if(GSM->getStat("8") >= 20 && !GM->getUGV("52")) {
-            auto delay = CCDelayTime::create(0.4f);
-            auto func = CCCallFunc::create(this, callfunc_selector(HookedLevelSelectLayer::createGoldCoinDialog));
-            this->runAction(CCSequence::create(delay, func, 0));
-        }
-
         m_scrollLayer->m_dynamicObjects->removeAllObjects();
 
         auto dotsArray = CCArrayExt<CCSprite*>(m_scrollLayer->m_dots);
