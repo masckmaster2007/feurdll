@@ -115,7 +115,8 @@ class $modify(OdysseyLevelTools, LevelTools)
 	// 	return level;
 	// };
 
-    static GJGameLevel coolUpdate(GJGameLevel level, gd::string lkey, bool loaded) {
+    static GJGameLevel* coolUpdate(GJGameLevel* level, int levelID, bool loaded) {
+        gd::string lkey = std::to_string(levelID);
         level->m_levelName = levels[lkey]["m_levelName"].asString().unwrap();
         level->m_audioTrack = levels[lkey]["m_audioTrack"].asInt().unwrap();
         level->m_stars = levels[lkey]["m_stars"].asInt().unwrap();
@@ -128,6 +129,7 @@ class $modify(OdysseyLevelTools, LevelTools)
             
 		level->m_levelType = GJLevelType::Main;
 		level->m_levelID = levelID;
+        return level;
     }
 
     $override static GJGameLevel *getLevel(int levelID, bool loaded)
@@ -135,7 +137,7 @@ class $modify(OdysseyLevelTools, LevelTools)
 		GJGameLevel *level = LevelTools::getLevel(levelID, loaded);
 
         std::string lkey = std::to_string(levelID);
-        if (levels.contains(lkey)) level = coolUpdate(level, lkey, loaded);
+        if (levels.contains(lkey)) level = coolUpdate(level, levelID, loaded);
 
 		return level;
 	};
@@ -158,7 +160,7 @@ class $modify(MLE_GameLevelManager, GameLevelManager) {
         GJGameLevel* level = GameLevelManager::getMainLevel(levelID, dontGetLevelString);
 
         std::string lkey = std::to_string(levelID);
-        if (levels.contains(lkey)) level = OdysseyLevelTools::coolUpdate(level, lkey, dontGetLevelString);
+        if (levels.contains(lkey)) level = OdysseyLevelTools::coolUpdate(level, levelID, dontGetLevelString);
 
 		return level;
     };
