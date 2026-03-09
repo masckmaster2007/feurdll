@@ -27,29 +27,16 @@ $on_mod(Loaded) {
 
 class $modify(OdysseyLevelTools, LevelTools)
 {
-
-    static gd::string getTrackKey(int levelID) {
-        auto lkey = std::to_string(levelID);
-
-        if (!levels.contains(lkey))
-            return "";
-
-        auto level = levels[lkey];
-
-        int track = level["m_audioTrack"].asInt().unwrapOr(0);
-        return track == 0 ? "" : std::to_string(track);
-    }
-
-	$override static gd::string getAudioTitle(int levelID)
+	$override static gd::string getAudioTitle(int trackID)
 	{
-        std::string tkey = getTrackKey(levelID);
+        std::string tkey = std::to_string(trackID);
         if (!tracks.contains(tkey)) return LevelTools::getAudioTitle(levelID);
         return tracks[tkey]["title"].asString().unwrap();
 	}
 
-	$override static gd::string getAudioFileName(int levelID)
+	$override static gd::string getAudioFileName(int trackID)
 	{
-		std::string tkey = getTrackKey(levelID);
+        std::string tkey = std::to_string(trackID);
         if (!tracks.contains(tkey)) return LevelTools::getAudioFileName(levelID);
         return tracks[tkey]["m_fileName"].asString().unwrap();
 	}
